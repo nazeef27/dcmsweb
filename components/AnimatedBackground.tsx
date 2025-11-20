@@ -51,7 +51,7 @@ export function AnimatedBackground() {
     let isPaused = false;
 
     function animate(currentTime: number) {
-      if (!ctx) return;
+      if (!ctx || !canvas) return;
       
       const deltaTime = currentTime - lastTime;
       if (deltaTime < frameInterval) {
@@ -102,6 +102,7 @@ export function AnimatedBackground() {
     animationFrameId = requestAnimationFrame(animate);
 
     const handleResize = () => {
+      if (!canvas) return;
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
