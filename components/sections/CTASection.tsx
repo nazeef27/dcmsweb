@@ -50,7 +50,7 @@ export function CTASection() {
             transition={{ duration: 0.8 }}
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6 text-white gradient-text-cream text-shadow-premium">
-              Let's Build Your Future With DCMS
+              Let&apos;s Build Your Future With DCMS
             </h2>
             <p className="text-xl text-white font-medium mb-8 leading-relaxed">
               Not sure what to study? Download Our Guide and explore the opportunities at Deccan College of Medical Sciences.
