@@ -56,7 +56,7 @@ export function NewsSection() {
           <p className={`text-lg max-w-2xl mx-auto font-medium ${
             isVideoDark ? "text-white" : "text-black"
           }`}>
-            Stay updated with what's happening in the campus.
+            Stay updated with what&apos;s happening in the campus.
           </p>
         </motion.div>
 

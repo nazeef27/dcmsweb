@@ -21,7 +21,7 @@
 1. Once logged in, click "Add new site" → "Import an existing project"
 2. Choose your Git provider (GitHub, GitLab, or Bitbucket)
 3. Authorize Netlify to access your repositories
-4. Select your repository (`dvclweb`)
+4. Select your repository (`dcmsweb`)
 
 #### Step 4: Configure Build Settings
 Netlify should auto-detect Next.js, but verify these settings:

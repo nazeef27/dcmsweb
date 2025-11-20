@@ -226,7 +226,7 @@ export function AboutSection() {
                 </li>
                 <li className="flex items-start">
                   <CheckCircle className="w-6 h-6 text-green-800 flex-shrink-0 mt-1 mr-3" />
-                  <span>Creating a global medical network dedicated to improving people's lives by embracing the values of equality, diversity, and inclusion in all facets of the medical curriculum</span>
+                  <span>Creating a global medical network dedicated to improving people&apos;s lives by embracing the values of equality, diversity, and inclusion in all facets of the medical curriculum</span>
                 </li>
               </ul>
             </motion.div>

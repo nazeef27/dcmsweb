@@ -92,7 +92,7 @@ export function CTASection() {
                 <div>
                   <h3 className="text-xl font-bold mb-2 text-white gradient-text-cream">Visit Our Campus</h3>
                   <p className="text-white font-medium">
-                    DMRL 'X' Road, Kanchanbagh,<br />
+                    DMRL &apos;X&apos; Road, Kanchanbagh,<br />
                     Hyderabad–500058, Telangana, India.
                   </p>
                 </div>

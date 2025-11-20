@@ -704,7 +704,7 @@ export function Header() {
                         No results found
                       </p>
                       <p className="text-sm text-black/60 dark:text-white/60">
-                        Try searching for "Administration", "Departments", "Vision", "Mission", or department names
+                        Try searching for &quot;Administration&quot;, &quot;Departments&quot;, &quot;Vision&quot;, &quot;Mission&quot;, or department names
                       </p>
                     </div>
                   )}

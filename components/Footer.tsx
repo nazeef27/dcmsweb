@@ -140,7 +140,7 @@ export function Footer() {
               <li className="flex items-start space-x-3">
                 <MapPin className="w-5 h-5 text-cream mt-1 flex-shrink-0" />
                 <span className="text-white font-medium">
-                  DMRL 'X' Road, Kanchanbagh,<br />
+                  DMRL &apos;X&apos; Road, Kanchanbagh,<br />
                   Hyderabad–500058, Telangana, India.
                 </span>
               </li>
