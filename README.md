@@ -60,8 +60,9 @@ npm start
 
 ### Colors
 Edit `tailwind.config.ts` to customize the color scheme:
-- Primary colors: Blue gradient
-- Secondary colors: Purple gradient
+- Primary colors: Green gradient (Dark green: #0d3d1f, Light green: #50be73)
+- Secondary colors: Cream gradient (Cream: #d4a373, Gold/Brown tones)
+- The color scheme is based on the Deccan College logo colors
 
 ### Images
 All images are referenced from the original DCMS website. To use local images:
