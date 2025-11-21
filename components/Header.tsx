@@ -992,7 +992,7 @@ export function Header() {
                             <p className="text-xs font-semibold text-green-800 dark:text-green-400">Key facts:</p>
                             <ul className="text-xs text-black/80 dark:text-white/80 space-y-1 list-disc list-inside">
                               <li><strong>Role:</strong> AIMIM party chief and five-time MP for Hyderabad.</li>
-                              <li><strong>Profession:</strong> A barrister by training, having studied law at Lincoln's Inn in London.</li>
+                              <li><strong>Profession:</strong> A barrister by training, having studied law at Lincoln&apos;s Inn in London.</li>
                               <li><strong>Political Stance:</strong> Known for his assertive and often fiery advocacy for Muslim and Dalit minority rights, secularism, and sharp criticism of Hindutva ideology and other mainstream political parties.</li>
                               <li><strong>Awards:</strong> Honored with the Sansad Ratna Award in 2014 and the Best Parliamentarian Award in 2022 for his active participation in debates and raising important questions in Parliament.</li>
                               <li><strong>Background:</strong> He comes from a prominent political family in Hyderabad; his father and grandfather both led the AIMIM party before him.</li>

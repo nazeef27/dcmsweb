@@ -10,7 +10,7 @@ import { Trophy, Building2, BookOpen, Award } from "lucide-react";
 const stats = [
   { value: 40, suffix: "+", label: "History Of High Achievers", icon: Trophy },
   { value: 50, suffix: "+", label: "Total Acres of the Land", icon: Building2 },
-  { value: 10, suffix: "+", label: "Kilometer's of Bookshelves", icon: BookOpen },
+  { value: 10, suffix: "+", label: "Kilometers of Bookshelves", icon: BookOpen },
   { value: 100, suffix: "+", label: "Awards & Achievements", icon: Award },
 ];
 
