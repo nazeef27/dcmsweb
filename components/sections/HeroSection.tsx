@@ -11,12 +11,13 @@ export function HeroSection() {
   const { isVideoDark } = useVideoTheme();
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-32 lg:pt-36">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-28 lg:pt-32">
       {/* Minimal backdrop - video should be clearly visible */}
       <div className="absolute inset-0 bg-gradient-to-br from-black/10 via-transparent to-black/10">
-        <div className="absolute inset-0 bg-[url('https://dcms.ac.in/wp-content/uploads/2024/01/logo.png')] opacity-5 bg-center bg-no-repeat bg-contain"></div>
+        <div className="absolute inset-0 bg-[url('https://dcms.ac.in/wp-content/uploads/2024/01/logo.png')] opacity-5 bg-center bg-no-repeat bg-contain" style={{ contentVisibility: 'auto' }}></div>
         <motion.div
           className="absolute top-20 left-10 w-72 h-72 bg-cream/20 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-float"
+          initial={false}
           animate={{
             scale: [1, 1.2, 1],
             x: [0, 100, 0],
@@ -27,9 +28,11 @@ export function HeroSection() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{ willChange: 'transform' }}
         />
         <motion.div
           className="absolute bottom-20 right-10 w-72 h-72 bg-cream/20 rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-float"
+          initial={false}
           animate={{
             scale: [1, 1.3, 1],
             x: [0, -100, 0],
@@ -40,6 +43,7 @@ export function HeroSection() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
+          style={{ willChange: 'transform' }}
         />
       </div>
 

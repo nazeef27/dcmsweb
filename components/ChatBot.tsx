@@ -47,6 +47,26 @@ const faqDatabase = [
     keywords: ["history", "timeline", "established", "when", "founded", "background", "heritage"]
   },
   {
+    question: "Who is the founder?",
+    answer: "Deccan College of Medical Sciences is owned by the Dar-us-Salam Educational Trust, which was founded by the late Alhaj Sultan Salahuddin Owaisi. The trust is currently chaired by Asaduddin Owaisi, and the college is administered under his guidance as well as that of the Managing Director, Akbaruddin Owaisi.\n\nOwner: Dar-us-Salam Educational Trust\nFounder: Late Alhaj Sultan Salahuddin Owaisi\nCurrent Chairman: Asaduddin Owaisi\nManaging Director: Akbaruddin Owaisi",
+    keywords: ["founder", "founders", "who is the founder", "who founded", "owner", "chairman", "managing director", "sultan salahuddin", "asaduddin", "akbaruddin", "dar-us-salam", "trust"]
+  },
+  {
+    question: "Who is Salahuddin?",
+    answer: "ALHAJ SULTAN SALAHUDDIN OWAISI\n\nThe Deccan College of Medical Sciences under the aegis of Dar-us-Salam Educational Trust, under the Chairmanship of ALHAJ SULTAN SALAHUDDIN OWAISI, EX. M.P., was started in the year 1984 with an intake of 100 seats in M.B;B.S. course.",
+    keywords: ["salahuddin", "sultan salahuddin", "salahuddin owaisi", "sultan salahuddin owaisi", "alhaj sultan", "who is salahuddin", "about salahuddin"]
+  },
+  {
+    question: "Who is the current owner?",
+    answer: "Asaduddin Owaisi is an Indian politician and the President of the All India Majlis-e-Ittehadul Muslimeen (AIMIM) party. He has been a Member of Parliament (MP) representing the Hyderabad constituency in the Lok Sabha (the lower house of the Indian Parliament) since 2004, having been re-elected in 2024 for his fifth consecutive term.\n\nKey facts:\nRole: AIMIM party chief and five-time MP for Hyderabad.\nProfession: A barrister by training, having studied law at Lincoln's Inn in London.\nPolitical Stance: Known for his assertive and often fiery advocacy for Muslim and Dalit minority rights, secularism, and sharp criticism of Hindutva ideology and other mainstream political parties.\nAwards: Honored with the Sansad Ratna Award in 2014 and the Best Parliamentarian Award in 2022 for his active participation in debates and raising important questions in Parliament.\nBackground: He comes from a prominent political family in Hyderabad; his father and grandfather both led the AIMIM party before him.",
+    keywords: ["current owner", "who is the current owner", "current chairman", "who is the chairman", "asaduddin", "asaduddin owaisi", "barrister asaduddin", "who is asaduddin", "about asaduddin", "aimim", "hyderabad mp"]
+  },
+  {
+    question: "Who is Akbaruddin Owaisi?",
+    answer: "Akbaruddin Owaisi is an Indian politician and a prominent leader of the All India Majlis-e-Ittehadul Muslimeen (AIMIM) party.\n\nHe is the floor leader of AIMIM in the Telangana Legislative Assembly and has served as a Member of the Legislative Assembly (MLA) for the Chandrayangutta constituency in Hyderabad for six consecutive terms since 1999. He is the younger brother of AIMIM President and Hyderabad MP, Asaduddin Owaisi.\n\nOwaisi is known for his influential speeches and is also the managing director of the Owaisi Hospital and runs the Salar-e-Millat Educational Trust, which operates a chain of schools providing free education.",
+    keywords: ["akbaruddin", "akbaruddin owaisi", "akbar sir", "who is akbaruddin", "about akbaruddin", "managing director", "who is the managing director", "chandrayangutta", "telangana mla"]
+  },
+  {
     question: "What is the vision and mission?",
     answer: "Our vision is to be a leading medical institution producing high-caliber medical graduates. Our mission focuses on providing quality medical education, fostering research, and serving the community through healthcare excellence.",
     keywords: ["vision", "mission", "goals", "objectives", "purpose", "aim"]
@@ -106,13 +126,20 @@ function findBestMatch(userQuery: string): string {
 
 export function ChatBot() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Array<{ text: string; sender: 'user' | 'bot'; timestamp: Date }>>([
-    { text: "Hello! I'm your virtual assistant for Deccan College of Medical Sciences. How can I help you today?", sender: 'bot', timestamp: new Date() }
-  ]);
+  const [messages, setMessages] = useState<Array<{ text: string; sender: 'user' | 'bot'; timestamp: Date }>>([]);
   const [inputValue, setInputValue] = useState("");
   const [hasAnimated, setHasAnimated] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Initialize messages after mount to prevent hydration error
+  useEffect(() => {
+    setIsMounted(true);
+    setMessages([
+      { text: "Hello! I'm your virtual assistant for Deccan College of Medical Sciences. How can I help you today?", sender: 'bot', timestamp: new Date() }
+    ]);
+  }, []);
 
   // Entrance animation - ball falls from top to bottom-left corner
   useEffect(() => {
@@ -172,6 +199,9 @@ export function ChatBot() {
       handleSendMessage();
     }
   };
+
+  // Don't render until mounted to prevent hydration errors
+  if (!isMounted) return null;
 
   return (
     <>

@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Moon, Sun, Search } from "lucide-react";
+import { Menu, X, Moon, Sun, Search, Heart, ArrowLeft } from "lucide-react";
 import { useTheme } from "./ThemeProvider";
 import { useVideoTheme } from "./VideoThemeManager";
+import { SafeImage } from "./SafeImage";
 
 const navLinks = [
   { name: "Home", href: "/" },
@@ -144,13 +145,21 @@ export function Header() {
   const [isDepartmentsHovered, setIsDepartmentsHovered] = useState(false);
   const [isAboutUsHovered, setIsAboutUsHovered] = useState(false);
   const [isAdministrationModalOpen, setIsAdministrationModalOpen] = useState(false);
+  const [isFoundersModalOpen, setIsFoundersModalOpen] = useState(false);
+  const [selectedFounder, setSelectedFounder] = useState<string | null>(null);
   const [hoveredCategory, setHoveredCategory] = useState<string | null>(null);
   const [hoveredAboutOption, setHoveredAboutOption] = useState<string | null>(null);
   const [isMobileDepartmentsOpen, setIsMobileDepartmentsOpen] = useState(false);
   const [isMobileAboutUsOpen, setIsMobileAboutUsOpen] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const { theme, toggleTheme } = useTheme();
   const videoTheme = useVideoTheme();
-  const isVideoDark = videoTheme.isVideoDark;
+  // Use false as default to match server-side rendering
+  const isVideoDark = isMounted ? videoTheme.isVideoDark : false;
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     let ticking = false;
@@ -267,16 +276,16 @@ export function Header() {
       >
         <nav className="container-custom">
           {/* Top Row - Logo and Mobile Menu */}
-          <div className="flex items-center justify-between h-20 py-2">
+          <div className="flex items-center justify-between h-16 py-1">
             {/* Logo */}
             <Link href="/" className="flex items-center space-x-3 group">
               <img 
                 src="/logo.webp" 
                 alt="Deccan College of Medical Sciences" 
-                className="h-12 w-auto object-contain"
+                className="h-10 w-auto object-contain"
               />
               <div className="hidden md:block">
-                <h1 className={`text-lg md:text-xl font-bold font-display tracking-tight leading-tight whitespace-nowrap ${
+                <h1 className={`text-base md:text-lg font-bold font-display tracking-tight leading-tight whitespace-nowrap ${
                   isVideoDark ? "text-white" : "text-black"
                 }`}>
                   Deccan College of Medical Sciences
@@ -299,7 +308,7 @@ export function Header() {
           </div>
 
           {/* Second Row - Navigation, Search, and Dark Mode */}
-          <div className="hidden lg:flex items-center justify-between pb-4 border-b border-black/10 dark:border-white/10">
+          <div className="hidden lg:flex items-center justify-between pb-2 pt-1 border-b border-black/10 dark:border-white/10">
             {/* Desktop Navigation */}
             <div className="flex items-center space-x-6 flex-1">
               {navLinks.map((link) => (
@@ -447,7 +456,19 @@ export function Header() {
             </div>
 
             {/* Search and Dark Mode Buttons */}
-            <div className="flex items-center space-x-3 ml-6">
+            <div className="flex items-center space-x-2 ml-6">
+              <button
+                onClick={() => setIsFoundersModalOpen(true)}
+                className={`px-2.5 py-1 backdrop-blur-sm rounded-full text-xs font-semibold border inline-flex items-center gap-1.5 transition-all hover:scale-105 cursor-pointer ${
+                  isVideoDark 
+                    ? "bg-white/20 text-white border-white/30 hover:bg-white/30" 
+                    : "bg-black/20 text-black border-black/30 hover:bg-black/30"
+                }`}
+                aria-label="Founders"
+              >
+                <Heart className="w-3 h-3" />
+                Founders
+              </button>
               <button
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
                 className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 dark:hover:bg-slate-600 text-white font-bold transition-all cursor-pointer shadow-premium hover:shadow-glow btn-premium ripple"
@@ -471,7 +492,19 @@ export function Header() {
           </div>
 
           {/* Mobile Search and Dark Mode Row */}
-          <div className="lg:hidden flex items-center justify-end space-x-3 pb-4">
+          <div className="lg:hidden flex items-center justify-end space-x-2 pb-2 pt-1">
+            <button
+              onClick={() => setIsFoundersModalOpen(true)}
+              className={`px-2.5 py-1 backdrop-blur-sm rounded-full text-xs font-semibold border inline-flex items-center gap-1.5 transition-all hover:scale-105 cursor-pointer ${
+                isVideoDark 
+                  ? "bg-white/20 text-white border-white/30 hover:bg-white/30" 
+                  : "bg-black/20 text-black border-black/30 hover:bg-black/30"
+              }`}
+              aria-label="Founders"
+            >
+              <Heart className="w-3 h-3" />
+              Founders
+            </button>
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
               className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-slate-800 dark:bg-slate-700 hover:bg-slate-900 dark:hover:bg-slate-600 text-white font-bold transition-all cursor-pointer shadow-md"
@@ -748,6 +781,292 @@ export function Header() {
                   alt="Administration - Deccan College of Medical Sciences"
                   className="w-full h-auto object-contain rounded-lg"
                 />
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Founders Modal */}
+      <AnimatePresence>
+        {isFoundersModalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100] flex items-center justify-center p-4"
+            onClick={() => {
+              setIsFoundersModalOpen(false);
+              setSelectedFounder(null);
+            }}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-2xl bg-cream/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-cream/50 dark:border-slate-700 p-4 max-h-[90vh] overflow-y-auto"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => {
+                  setIsFoundersModalOpen(false);
+                  setSelectedFounder(null);
+                }}
+                className="absolute top-2 right-2 p-1.5 rounded-full bg-black/10 dark:bg-white/10 hover:bg-green-800 dark:hover:bg-green-600 text-black dark:text-white transition-all z-10"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4 font-bold" />
+              </button>
+
+              {/* Founders Content */}
+              <div className="w-full">
+                {!selectedFounder ? (
+                  <>
+                    <h2 className="text-lg font-bold text-center mb-3 text-black dark:text-white">
+                      Founders
+                    </h2>
+
+                    {/* Founders List - Compact */}
+                    <div className="space-y-2">
+                      <button
+                        onClick={() => setSelectedFounder('abdul-wahed')}
+                        className="w-full flex items-start gap-2.5 p-2 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-green-800/20 dark:border-green-400/20 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all cursor-pointer"
+                      >
+                        <div className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                          <SafeImage
+                            src="/abdul-wahed-sahab.jpg"
+                            alt="Moulana Abdul Wahid Owaisi"
+                            width={48}
+                            height={48}
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <h3 className="text-sm font-bold text-green-800 dark:text-green-400 leading-tight mb-0.5">
+                            Moulana Abdul Wahid Owaisi
+                          </h3>
+                          <p className="text-xs text-black/80 dark:text-white/80">
+                            Founder of MIM
+                          </p>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => setSelectedFounder('salahuddin')}
+                        className="w-full flex items-start gap-2.5 p-2 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-green-800/20 dark:border-green-400/20 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all cursor-pointer"
+                      >
+                        <div className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                          <SafeImage
+                            src="/salahuddin-sahab.jpg"
+                            alt="Salar-e-Millat Sultan Salahuddin Owaisi"
+                            width={48}
+                            height={48}
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <h3 className="text-sm font-bold text-green-800 dark:text-green-400 leading-tight mb-0.5">
+                            Salar-e-Millat Sultan Salahuddin Owaisi
+                          </h3>
+                          <p className="text-xs text-black/80 dark:text-white/80">
+                            Founder Chairman, DET
+                          </p>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => setSelectedFounder('asaduddin')}
+                        className="w-full flex items-start gap-2.5 p-2 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-green-800/20 dark:border-green-400/20 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all cursor-pointer"
+                      >
+                        <div className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                          <SafeImage
+                            src="/asad-uddin-owaisi.jpg"
+                            alt="Barrister Asaduddin Owaisi"
+                            width={48}
+                            height={48}
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <h3 className="text-sm font-bold text-green-800 dark:text-green-400 leading-tight mb-0.5">
+                            Barrister Asaduddin Owaisi
+                          </h3>
+                          <p className="text-xs text-black/80 dark:text-white/80">
+                            Chairman, DET
+                          </p>
+                        </div>
+                      </button>
+
+                      <button
+                        onClick={() => setSelectedFounder('akbaruddin')}
+                        className="w-full flex items-start gap-2.5 p-2 bg-white/50 dark:bg-slate-800/50 rounded-lg border border-green-800/20 dark:border-green-400/20 hover:bg-white/70 dark:hover:bg-slate-800/70 transition-all cursor-pointer"
+                      >
+                        <div className="w-12 h-12 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                          <SafeImage
+                            src="/akbar-sir.jpg"
+                            alt="Janab Akbaruddin Owaisi"
+                            width={48}
+                            height={48}
+                            className="w-full h-full object-cover rounded-full"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0 text-left">
+                          <h3 className="text-sm font-bold text-green-800 dark:text-green-400 leading-tight mb-0.5">
+                            Janab Akbaruddin Owaisi
+                          </h3>
+                          <p className="text-xs text-black/80 dark:text-white/80">
+                            Managing Director, DCMS & AI
+                          </p>
+                        </div>
+                      </button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Back Button */}
+                    <button
+                      onClick={() => setSelectedFounder(null)}
+                      className="mb-4 flex items-center gap-2 text-green-800 dark:text-green-400 hover:text-green-900 dark:hover:text-green-300 transition-colors"
+                    >
+                      <ArrowLeft className="w-4 h-4" />
+                      <span className="text-sm font-semibold">Back to Founders</span>
+                    </button>
+
+                    {/* Founder Details */}
+                    {selectedFounder === 'salahuddin' && (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-20 h-20 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                            <SafeImage
+                              src="/salahuddin-sahab.jpg"
+                              alt="Salar-e-Millat Sultan Salahuddin Owaisi"
+                              width={80}
+                              height={80}
+                              className="w-full h-full object-cover rounded-full"
+                            />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-bold text-green-800 dark:text-green-400 mb-1">
+                              ALHAJ SULTAN SALAHUDDIN OWAISI
+                            </h2>
+                            <p className="text-sm text-black/80 dark:text-white/80">
+                              Founder Chairman, DET
+                            </p>
+                          </div>
+                        </div>
+                        <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-4 border border-green-800/20 dark:border-green-400/20">
+                          <p className="text-sm text-black dark:text-white leading-relaxed">
+                            The Deccan College of Medical Sciences under the aegis of Dar-us-Salam Educational Trust, under the Chairmanship of ALHAJ SULTAN SALAHUDDIN OWAISI, EX. M.P., was started in the year 1984 with an intake of 100 seats in M.B;B.S. course.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedFounder === 'asaduddin' && (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-20 h-20 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                            <SafeImage
+                              src="/asad-uddin-owaisi.jpg"
+                              alt="Barrister Asaduddin Owaisi"
+                              width={80}
+                              height={80}
+                              className="w-full h-full object-cover rounded-full"
+                            />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-bold text-green-800 dark:text-green-400 mb-1">
+                              Barrister Asaduddin Owaisi
+                            </h2>
+                            <p className="text-sm text-black/80 dark:text-white/80">
+                              Chairman, DET
+                            </p>
+                          </div>
+                        </div>
+                        <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-4 border border-green-800/20 dark:border-green-400/20 space-y-3">
+                          <p className="text-sm text-black dark:text-white leading-relaxed">
+                            Asaduddin Owaisi is an Indian politician and the President of the All India Majlis-e-Ittehadul Muslimeen (AIMIM) party. He has been a Member of Parliament (MP) representing the Hyderabad constituency in the Lok Sabha (the lower house of the Indian Parliament) since 2004, having been re-elected in 2024 for his fifth consecutive term.
+                          </p>
+                          <div className="space-y-2 pt-2 border-t border-green-800/20 dark:border-green-400/20">
+                            <p className="text-xs font-semibold text-green-800 dark:text-green-400">Key facts:</p>
+                            <ul className="text-xs text-black/80 dark:text-white/80 space-y-1 list-disc list-inside">
+                              <li><strong>Role:</strong> AIMIM party chief and five-time MP for Hyderabad.</li>
+                              <li><strong>Profession:</strong> A barrister by training, having studied law at Lincoln's Inn in London.</li>
+                              <li><strong>Political Stance:</strong> Known for his assertive and often fiery advocacy for Muslim and Dalit minority rights, secularism, and sharp criticism of Hindutva ideology and other mainstream political parties.</li>
+                              <li><strong>Awards:</strong> Honored with the Sansad Ratna Award in 2014 and the Best Parliamentarian Award in 2022 for his active participation in debates and raising important questions in Parliament.</li>
+                              <li><strong>Background:</strong> He comes from a prominent political family in Hyderabad; his father and grandfather both led the AIMIM party before him.</li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedFounder === 'akbaruddin' && (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-20 h-20 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                            <SafeImage
+                              src="/akbar-sir.jpg"
+                              alt="Janab Akbaruddin Owaisi"
+                              width={80}
+                              height={80}
+                              className="w-full h-full object-cover rounded-full"
+                            />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-bold text-green-800 dark:text-green-400 mb-1">
+                              Janab Akbaruddin Owaisi
+                            </h2>
+                            <p className="text-sm text-black/80 dark:text-white/80">
+                              Managing Director, DCMS & AI
+                            </p>
+                          </div>
+                        </div>
+                        <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-4 border border-green-800/20 dark:border-green-400/20">
+                          <p className="text-sm text-black dark:text-white leading-relaxed">
+                            Akbaruddin Owaisi is an Indian politician and a prominent leader of the All India Majlis-e-Ittehadul Muslimeen (AIMIM) party.
+                          </p>
+                          <p className="text-sm text-black dark:text-white leading-relaxed mt-3">
+                            He is the floor leader of AIMIM in the Telangana Legislative Assembly and has served as a Member of the Legislative Assembly (MLA) for the Chandrayangutta constituency in Hyderabad for six consecutive terms since 1999. He is the younger brother of AIMIM President and Hyderabad MP, Asaduddin Owaisi.
+                          </p>
+                          <p className="text-sm text-black dark:text-white leading-relaxed mt-3">
+                            Owaisi is known for his influential speeches and is also the managing director of the Owaisi Hospital and runs the Salar-e-Millat Educational Trust, which operates a chain of schools providing free education.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedFounder === 'abdul-wahed' && (
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-4 mb-4">
+                          <div className="w-20 h-20 rounded-full flex-shrink-0 overflow-hidden border-2 border-green-800/30 dark:border-green-400/30">
+                            <SafeImage
+                              src="/abdul-wahed-sahab.jpg"
+                              alt="Moulana Abdul Wahid Owaisi"
+                              width={80}
+                              height={80}
+                              className="w-full h-full object-cover rounded-full"
+                            />
+                          </div>
+                          <div>
+                            <h2 className="text-xl font-bold text-green-800 dark:text-green-400 mb-1">
+                              Moulana Abdul Wahid Owaisi
+                            </h2>
+                            <p className="text-sm text-black/80 dark:text-white/80">
+                              Founder of MIM
+                            </p>
+                          </div>
+                        </div>
+                        <div className="bg-white/50 dark:bg-slate-800/50 rounded-lg p-4 border border-green-800/20 dark:border-green-400/20">
+                          <p className="text-sm text-black dark:text-white leading-relaxed">
+                            Moulana Abdul Wahid Owaisi is the founder of the All India Majlis-e-Ittehadul Muslimeen (AIMIM) party. He established the party and laid the foundation for the political legacy that continues through his descendants.
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                )}
               </div>
             </motion.div>
           </motion.div>

@@ -125,12 +125,12 @@ export function VideoBackground({
   }
 
   return (
-    <div className="fixed inset-0 -z-10 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }}>
+    <div className="fixed inset-0 -z-10 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0 }} suppressHydrationWarning>
       {/* Premium Video Background with Enhanced Effects */}
       <motion.div
-        initial={{ opacity: 0, scale: 1.1 }}
-        animate={{ opacity: isLoaded ? 1 : 0, scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: isLoaded ? 1 : 0.3 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
         className="relative w-full h-full"
         style={{
           position: 'fixed',
@@ -139,6 +139,7 @@ export function VideoBackground({
           width: '100%',
           height: '100%',
         }}
+        suppressHydrationWarning
       >
         <video
           ref={videoRef}
@@ -156,11 +157,16 @@ export function VideoBackground({
             width: '100%',
             height: '100%',
             objectFit: 'cover',
-            willChange: 'transform',
+            willChange: 'auto',
             transform: 'translate3d(0, 0, 0)',
+            backgroundColor: 'transparent',
+            zIndex: -1,
           }}
           onLoadedData={() => setIsLoaded(true)}
+          onCanPlay={() => setIsLoaded(true)}
+          onLoadedMetadata={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
+          suppressHydrationWarning
         >
           <source src={videoSrc} type="video/mp4" />
         </video>

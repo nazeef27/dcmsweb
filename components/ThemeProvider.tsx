@@ -17,14 +17,17 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     setMounted(true);
-    const savedTheme = localStorage.getItem("theme") as Theme;
-    if (savedTheme) {
-      setTheme(savedTheme);
-      document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light");
-      document.documentElement.classList.toggle("dark", prefersDark);
+    // Only access localStorage and window after mount to prevent hydration errors
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem("theme") as Theme;
+      if (savedTheme) {
+        setTheme(savedTheme);
+        document.documentElement.classList.toggle("dark", savedTheme === "dark");
+      } else {
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        setTheme(prefersDark ? "dark" : "light");
+        document.documentElement.classList.toggle("dark", prefersDark);
+      }
     }
   }, []);
 

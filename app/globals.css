@@ -27,6 +27,8 @@ html {
   -moz-osx-font-smoothing: grayscale;
   /* Reduce repaints */
   text-rendering: optimizeLegibility;
+  /* Prevent white flash - use video background color */
+  background-color: transparent;
 }
 
 /* Performance: Reduce animation complexity on low-end devices */
@@ -50,6 +52,9 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  /* Prevent white flash - video background will show */
+  background-color: transparent;
+  min-height: 100vh;
   overflow-x: hidden;
   cursor: auto; /* Normal cursor */
 }

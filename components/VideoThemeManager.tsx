@@ -29,11 +29,11 @@ export function VideoThemeProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Video background is now enabled with your video!
+// Video background is now enabled with deccandone.mp4 as the background theme!
 export function VideoThemeManager() {
-  // Your video is now set as the live background theme
+  // deccandone.mp4 is set as the live background theme
   // Add cache-busting parameter - update this version number when you change the video
-  const videoVersion = "3"; // Increment this when you update the video file
+  const videoVersion = "4"; // Increment this when you update the video file
   const videoSrc = `/videos/deccandone.mp4?v=${videoVersion}`;
 
   return (

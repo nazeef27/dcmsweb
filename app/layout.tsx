@@ -24,6 +24,9 @@ export const metadata: Metadata = {
   title: "Deccan College of Medical Sciences | DCMS",
   description: "One of the oldest and most sought-after medical colleges in Telangana, producing high-caliber medical graduates.",
   keywords: "medical college, DCMS, Deccan College, medical education, Telangana, Hyderabad",
+  other: {
+    'theme-color': '#065f46',
+  },
 };
 
 export default function RootLayout({
@@ -32,17 +35,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`}>
+    <html lang="en" suppressHydrationWarning style={{ backgroundColor: 'transparent' }}>
+      <body className={`${inter.variable} ${poppins.variable} font-sans antialiased`} style={{ backgroundColor: 'transparent', minHeight: '100vh' }}>
         <ThemeProvider>
           <VideoThemeProvider>
             <SmoothScroll>
               <VideoThemeManager />
               {/* Lazy load backgrounds for better performance */}
-              <div className="fixed inset-0 -z-10 opacity-20" style={{ willChange: 'auto' }}>
+              <div className="fixed inset-0 -z-10 opacity-20" style={{ willChange: 'auto', contentVisibility: 'auto' }}>
                 <GradientBackground />
               </div>
-              <div className="fixed inset-0 -z-10 opacity-10" style={{ willChange: 'auto' }}>
+              <div className="fixed inset-0 -z-10 opacity-10" style={{ willChange: 'auto', contentVisibility: 'auto' }}>
                 <AnimatedBackground />
               </div>
               {children}
